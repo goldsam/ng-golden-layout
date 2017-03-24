@@ -1,4 +1,6 @@
-# ng-golden-layout
+
+# [ng-golden-layout](https://github.com/goldsam/ng-golden-layout)  [![Build Status](https://travis-ci.org/goldsam/ng-golden-layout.svg?branch=master)](https://travis-ci.org/goldsam/ng-golden-layout)
+
 Angular 2.4.x Compatible
 
 ## Installation
