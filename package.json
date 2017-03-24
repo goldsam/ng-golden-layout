@@ -1,6 +1,6 @@
 {
   "name": "@goldsam/ng-golden-layout",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Angular bindings for golden-layout",
   "main": "bundles/ng-golden-layout.umd.js",
   "module": "index.js",
