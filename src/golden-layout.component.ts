@@ -10,7 +10,6 @@ import {
   NgZone
 } from '@angular/core';
 import * as GoldenLayout from 'golden-layout';
-import $ from 'jquery';
 import { GlOnInit, GlOnResize } from './hooks';
 import { GoldenLayoutService, IComponentInitCallbackFactory, IComponentInitCallback } from './golden-layout.service';
 

@@ -1,6 +1,7 @@
 {
   "name": "@goldsam/ng-golden-layout",
-  "version": "0.0.2",
+  "version": "0.0.3",
+  "private": false,
   "description": "Angular bindings for golden-layout",
   "main": "bundles/ng-golden-layout.umd.js",
   "module": "index.js",
@@ -8,7 +9,7 @@
     "build": "node build.js",
     "test": "karma start",
     "pack-lib": "npm pack ./dist",
-    "publish-lib": "npm publish ./dist",
+    "publish-lib": "npm publish ./dist --access public",
     "compodoc": "compodoc -p tsconfig.json",
     "compodoc-serve": "compodoc -s"
   },
