@@ -1,0 +1,43 @@
+{
+  "project": {
+    "name": "ng-golden-layout"
+  },
+  "apps": [
+    {
+      "root": "demo/src",
+      "outDir": "demo/dist",
+      "assets": [
+        "assets"
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "test": "../../scripts/test.ts",
+      "tsconfig": "tsconfig.json",
+      "prefix": "",
+      "mobile": false,
+      "styles": [
+        "assets/css/style.scss",
+        "../../node_modules/golden-layout/src/css/goldenlayout-base.css",
+        "../../node_modules/golden-layout/src/css/goldenlayout-dark-theme.css"
+      ],
+      "scripts": [
+        "../../node_modules/jquery/dist/jquery.js"
+      ],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
+    }
+  ],
+  "addons": [],
+  "packages": [],
+  "defaults": {
+    "styleExt": "scss",
+    "prefixInterfaces": false,
+    "inline": {
+      "style": false,
+      "template": false
+    }
+  }
+}
