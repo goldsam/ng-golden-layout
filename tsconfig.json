@@ -20,10 +20,14 @@
       "jquery"
     ]
   },
-  "files": [
-    "index.ts"
+  "include": [
+    "index.ts",
+    "src/**/*.ts"
   ],
   "exclude": [
-    "tests/"
+    "node_modules",
+    "demo",
+    "tests",
+    "dist"
   ]
 }

@@ -3,17 +3,21 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 import { TestPanelComponent } from './test-panel.component';
-import { GoldenLayoutModule, IGoldenLayoutConfiguration } from '@goldsam/ng-golden-layout';
+import { 
+  GoldenLayoutModule, 
+  GoldenLayoutConfiguration, 
+  DEFAULT_LOCAL_STORAGE_STATE_STORE_PROVIDER 
+} from '@goldsam/ng-golden-layout';
 import * as GoldenLayout from 'golden-layout';
 
-const goldenLayoutConfig: IGoldenLayoutConfiguration = {
+const goldenLayoutConfig: GoldenLayoutConfiguration = {
   components: [
     {
       component: TestPanelComponent,
       componentName: 'test-panel'
     }
   ],
-  layout: {
+  defaultLayout: {
     content: [{
     type: 'row',
     content: [{
@@ -39,13 +43,6 @@ const goldenLayoutConfig: IGoldenLayoutConfiguration = {
   }
 }
 
-
-// // const configGoldenLayout.Config = [
-
-// // ]
-
-// GoldenLayoutModule.forRoot
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,6 +55,9 @@ const goldenLayoutConfig: IGoldenLayoutConfiguration = {
     BrowserModule,
     CommonModule,
     GoldenLayoutModule.forRoot(goldenLayoutConfig)
+  ],
+  providers: [
+    DEFAULT_LOCAL_STORAGE_STATE_STORE_PROVIDER
   ],
   bootstrap: [AppComponent]
 })

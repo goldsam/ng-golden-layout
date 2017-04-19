@@ -1,14 +1,39 @@
 import { Component, Inject } from '@angular/core';
-import { GoldenLayoutContainer } from '@goldsam/ng-golden-layout';
+import { GoldenLayoutComponentState, GlOnResize, GlOnHide, GlOnShow, GoldenLayoutContainer } from '@goldsam/ng-golden-layout';
 import * as GoldenLayout from 'golden-layout';
 
 @Component({
-  template: '<div>Yay</div>',
+  template: `
+    <div>
+      <h1>{{state?.label}}</h1>
+      <input type="text" [value]="state?.value || ''" (input)="onInput($event)">
+    </div>
+  `,
   selector: 'test-panel'
 })
-export class TestPanelComponent {
-  constructor(@Inject(GoldenLayoutContainer) private readonly glContainer: GoldenLayout.Container) {
-    const x = 1;
-    console.log(`${x + 1}`);
+export class TestPanelComponent implements GlOnResize, GlOnHide, GlOnShow {
+
+  constructor(@Inject(GoldenLayoutComponentState) private state: any,
+              @Inject(GoldenLayoutContainer) private container: GoldenLayout.Container) {}
+
+  public onInput(e: Event): void {
+    
+    this.container.extendState({
+      value: (<HTMLInputElement>e.target).value
+    });
+
+    console.log('state saved.');
+  }
+
+  public glOnResize(): void {
+    console.log('Resizing!');
+  }
+
+  public glOnShow(): void {
+    console.log('Showing!');
+  }
+
+  public glOnHide(): void {
+    console.log('Hiding!');
   }
 }

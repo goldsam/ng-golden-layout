@@ -1,26 +1,13 @@
 {
-  "extends": "tslint:recommended",
+  "extends": [ "codelyzer" ],
   "rulesDirectory": [
     "node_modules/codelyzer"
   ],
   "rules": {
-    "directive-selector": [
-      true,
-      "attribute",
-      [
-        "dir-prefix1",
-        "dir-prefix2"
-      ],
-      "camelCase"
-    ],
-    "component-selector": [
-      true,
-      "element",
-      [
-        "golden-layout"
-      ],
-      "kebab-case"
-    ],
+    // The rule have the following arguments:
+    // [ENABLED, "attribute" | "element", "selectorPrefix" | ["listOfPrefixes"], "camelCase" | "kebab-case"]
+    "directive-selector": [true, "attribute", ["golden-layout"], "camelCase"],
+    "component-selector": [true, "element", ["golden-layout"], "kebab-case"],
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
     "use-host-property-decorator": true,
@@ -30,29 +17,13 @@
     "no-forward-ref": true,
     "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,
-    "component-class-suffix": [
-      true,
-      "Component"
-    ],
-    "directive-class-suffix": [
-      true,
-      "Directive"
-    ],
-    "import-destructuring-spacing": true,
+
+    // [ENABLED, "SUFFIX"]
+    // Where "SUFFIX" is your custom suffix, for instance "Page" for Ionic 2 components.
+    "component-class-suffix": [true, "Component"],
+    "directive-class-suffix": [true, "Directive"],
     "templates-use-public": true,
     "no-access-missing-member": true,
-    "invoke-injectable": true,
-    "ordered-imports": [
-      false
-    ],
-    "quotemark": [
-      false
-    ],
-    "trailing-comma": [
-      false
-    ],
-    "max-classes-per-file": [
-      false
-    ]
+    "invoke-injectable": true
   }
 }

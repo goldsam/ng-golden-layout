@@ -14,23 +14,35 @@ import {
   ViewChild
 } from '@angular/core';
 import * as GoldenLayout from 'golden-layout';
-import { GlOnInit, GlOnResize } from './hooks';
-import { GoldenLayoutService, IComponentInitCallbackFactory, IComponentInitCallback } from './golden-layout.service';
+import { GlOnResize, GlOnShow, GlOnHide } from './hooks';
+import { 
+  GoldenLayoutService, 
+  ComponentInitCallbackFactory, 
+  ComponentInitCallback 
+} from './golden-layout.service';
 
 export const GoldenLayoutContainer = new OpaqueToken('GoldenLayoutContainer');
+export const GoldenLayoutComponentState = new OpaqueToken('GoldenLayoutComponentState');
 
 /**
- * Helper function to determine a component implements the GlOnInit interface.
+ * Type guard which determines if a component implements the GlOnResize interface.
  */
-function implementsGlOnInit(obj: any): obj is GlOnInit {
-  return typeof obj === 'object' && typeof obj.glOnInit === 'function';
+function implementsGlOnResize(obj: any): obj is GlOnResize {
+  return typeof obj === 'object' && typeof obj.glOnResize === 'function';
 }
 
 /**
- * Helper function to determine a component implements the GlOnResize interface.
+ * Type guard which determines if a component implements the GlOnShow interface.
  */
-function implementsGlOnResize(obj: any): obj is GlOnResize {
-  return typeof obj === 'object' && obj && typeof obj.glOnResize === 'function';
+function implementsGlOnShow(obj: any): obj is GlOnShow {
+  return typeof obj === 'object' && typeof obj.glOnShow === 'function';
+}
+
+/**
+ * Type guard which determines if a component implements the GlOnHide interface.
+ */
+function implementsGlOnHide(obj: any): obj is GlOnHide {
+  return typeof obj === 'object' && typeof obj.glOnHide === 'function';
 }
 
 const COMPONENT_REF_KEY = '$componentRef';
@@ -45,7 +57,7 @@ const COMPONENT_REF_KEY = '$componentRef';
   ],
   template: `<div class="ng-golden-layout-root" #glroot></div>`
 })
-export class GoldenLayoutComponent implements OnInit, IComponentInitCallbackFactory {
+export class GoldenLayoutComponent implements OnInit, ComponentInitCallbackFactory {
   private goldenLayout: GoldenLayout;
 
   @ViewChild('glroot') private el: ElementRef;
@@ -54,10 +66,16 @@ export class GoldenLayoutComponent implements OnInit, IComponentInitCallbackFact
               private viewContainer: ViewContainerRef,
               private componentFactoryResolver: ComponentFactoryResolver,
               private ngZone: NgZone,
-              private readonly injector: Injector) {}
+              private readonly injector: Injector) { }
 
   public ngOnInit(): void {
-    this.goldenLayout = new GoldenLayout(this.glService.config.layout, $(this.el.nativeElement));
+    this.glService.getState().then((layout: any) => {
+      this._createLayout(layout);
+    });
+  }
+
+  private _createLayout(layout: any): void {
+    this.goldenLayout = new GoldenLayout(layout, $(this.el.nativeElement));
 
     // Destory child angular components on golden-layout container destruction.
     this.goldenLayout.eventHub.on('itemDestroyed', (item: any) => {
@@ -65,6 +83,7 @@ export class GoldenLayoutComponent implements OnInit, IComponentInitCallbackFact
       const component = container && container[COMPONENT_REF_KEY];
       if (component) {
         component.destroy();
+        (container as any)[COMPONENT_REF_KEY] = null;
       }
     });
 
@@ -82,41 +101,68 @@ export class GoldenLayoutComponent implements OnInit, IComponentInitCallbackFact
     }
   }
 
-  public createComponentInitCallback(componentType: Type<any>): IComponentInitCallback {
+  public createComponentInitCallback(componentType: Type<any>): ComponentInitCallback {
     return (container: GoldenLayout.Container, componentState: any) => {
       this.ngZone.run(() => {
-
-        // Create an injector capable of injecting the GL container into components.
-        const injector = ReflectiveInjector.resolveAndCreate([
-          {
-            provide: GoldenLayoutContainer,
-            useValue: container
-          }
-        ], this.injector);
-
         // Create an instance of the angular component.
         const factory = this.componentFactoryResolver.resolveComponentFactory(componentType);
+        const injector = this._createComponentInjector(container, componentState);
         const componentRef = this.viewContainer.createComponent(factory, undefined, injector);
-        const component = componentRef.instance;
-
-        // Allow the component to handle initialization if it implements GlOnInit.
-        if (implementsGlOnInit(component)) {
-          component.glOnInit(this.goldenLayout.eventHub, componentState);
-        }
 
         // Bind the new component to container's client DOM element.
         container.getElement().append($(componentRef.location.nativeElement));
 
-        // Register an event hanlder to proxy the resize event.
-        container.on('resize', (item: any) => {
-          if (implementsGlOnResize(component)) {
-            component.glOnResize();
-          }
-        });
+        this._bindEventHooks(container, componentRef.instance);
 
         // Store a ref to the compoenentRef in the container to support destruction later on.
         (container as any)[COMPONENT_REF_KEY] = componentRef;
       });
     };
+  }
+
+  /**
+   * Creates an injector capable of injecting the GoldenLayout object,
+   * component container, and initial component state.
+   */
+  private _createComponentInjector(container: GoldenLayout.Container, componentState: any): Injector {
+    return ReflectiveInjector.resolveAndCreate([
+      {
+        provide: GoldenLayoutContainer,
+        useValue: container
+      },
+      {
+        provide: GoldenLayoutComponentState,
+        useValue: componentState
+      },
+      {
+        provide: GoldenLayout,
+        useValue: this.goldenLayout
+      },
+    ], this.injector);
+  }
+
+  /**
+   * Registers an event handler for each implemented hook.
+   * @param container Golden Layout component container.
+   * @param component Angular component instance.
+   */
+  private _bindEventHooks(container: GoldenLayout.Container, component: any): void {
+    if (implementsGlOnResize(component)) {
+      container.on('resize', () => {
+        component.glOnResize();
+      });
+    }
+
+    if (implementsGlOnShow(component)) {
+      container.on('show', () => {
+        component.glOnShow();
+      });
+    }
+
+    if (implementsGlOnHide(component)) {
+      container.on('hide', () => {
+        component.glOnHide();
+      });
+    }
   }
 }
