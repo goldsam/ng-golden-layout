@@ -2,10 +2,7 @@ import { Inject, Injectable, Type, Optional } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import * as GoldenLayout from 'golden-layout';
 import { GoldenLayoutConfiguration, ComponentConfiguration } from './config';
-
-
 import { GoldenLayoutStateStore, StateStore, LocalStorageStateStore } from './state';
-
 
 /**
  * golden-layout component initialization callback type.

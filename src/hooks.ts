@@ -1,22 +1,31 @@
 import * as GoldenLayout from 'golden-layout';
 
 /**
- * @whatItDoes Hook invoked after a component has been resized.
+ * Hook invoked after a component's container or the document has been resized.
  */
-export abstract class GlOnResize {
-  public abstract glOnResize(): void;
+export interface GlOnResize {
+  /**
+   * Invoked when the 'resize' event fires on the component's parent GoldenLayout Container.
+   */
+  glOnResize(): void;
 }
 
 /**
- * @whatItDoes Hook invoked after a before a component's container is shown.
+ * Hook invoked before a component's container is shown.
  */
-export abstract class GlOnShow {
-  public abstract glOnShow(): void;
+export interface GlOnShow {
+  /**
+   * Invoked when the 'show' event fires on the component's parent GoldenLayout Container.
+   */
+  glOnShow(): void;
 }
 
 /**
- * @whatItDoes Hook invoked after a before a component's container is hidden.
+ * Hook invoked before a component's container is hidden.
  */
-export abstract class GlOnHide {
-  public abstract glOnHide(): void;
+export interface GlOnHide {
+  /**
+   * Invoked when the 'hide' event fires on the component's parent GoldenLayout Container.
+   */
+  glOnHide(): void;
 }

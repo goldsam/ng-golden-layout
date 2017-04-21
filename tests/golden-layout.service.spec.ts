@@ -2,7 +2,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import * as GoldenLayout from 'golden-layout';
-import { IGoldenLayoutConfiguration, GoldenLayoutService, GoldenLayoutConfiguration} from '../index';
+import { GoldenLayoutConfiguration, GoldenLayoutService} from '../index';
 
 @Component({
   selector: 'golden-layout-test-component'
@@ -12,14 +12,14 @@ class TestComponent {
 
 describe('GoldenLayoutService', () => {
 
-  const config: IGoldenLayoutConfiguration = {
+  const config: GoldenLayoutConfiguration = {
     components: [
       {
         component: TestComponent,
         componentName: 'test-component'
       }
     ],
-    layout: {
+    defaultLayout: {
       content: [{
         type: 'component',
         componentName: 'test-component',
