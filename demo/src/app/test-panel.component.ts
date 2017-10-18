@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { GoldenLayoutComponentState, GlOnResize, GlOnHide, GlOnShow, GoldenLayoutContainer } from '@goldsam/ng-golden-layout';
+import { GoldenLayoutComponentState, GlOnResize, GlOnHide, GlOnShow, GlOnTab, GoldenLayoutContainer } from '@goldsam/ng-golden-layout';
 import * as GoldenLayout from 'golden-layout';
 
 @Component({
@@ -11,7 +11,7 @@ import * as GoldenLayout from 'golden-layout';
   `,
   selector: 'test-panel'
 })
-export class TestPanelComponent implements GlOnResize, GlOnHide, GlOnShow {
+export class TestPanelComponent implements GlOnResize, GlOnHide, GlOnShow, GlOnTab {
 
   constructor(@Inject(GoldenLayoutComponentState) private state: any,
               @Inject(GoldenLayoutContainer) private container: GoldenLayout.Container) {}
@@ -35,5 +35,9 @@ export class TestPanelComponent implements GlOnResize, GlOnHide, GlOnShow {
 
   public glOnHide(): void {
     console.log('Hiding!');
+  }
+
+  public glOnTab(): void {
+    console.log('Tab shown!');
   }
 }
