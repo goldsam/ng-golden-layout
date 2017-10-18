@@ -29,3 +29,13 @@ export interface GlOnHide {
    */
   glOnHide(): void;
 }
+
+/**
+ * Hook invoked after component's container tab is shown
+ */
+export interface GlOnTab {
+  /**
+   * Invoked when the 'tab' event fires on the component's parent GoldenLayout Container.
+   */
+  glOnTab(): void;
+}
