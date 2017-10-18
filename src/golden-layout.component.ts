@@ -14,7 +14,7 @@ import {
   ViewChild
 } from '@angular/core';
 import * as GoldenLayout from 'golden-layout';
-import { GlOnResize, GlOnShow, GlOnHide } from './hooks';
+import { GlOnResize, GlOnShow, GlOnHide, GlOnTab } from './hooks';
 import { 
   GoldenLayoutService, 
   ComponentInitCallbackFactory, 
@@ -43,6 +43,13 @@ function implementsGlOnShow(obj: any): obj is GlOnShow {
  */
 function implementsGlOnHide(obj: any): obj is GlOnHide {
   return typeof obj === 'object' && typeof obj.glOnHide === 'function';
+}
+
+/**
+ * Type guard which determines if a component implements the GlOnTab interface.
+ */
+function implementsGlOnTab(obj: any): obj is GlOnTab {
+  return typeof obj === 'object' && typeof obj.glOnTab === 'function';
 }
 
 const COMPONENT_REF_KEY = '$componentRef';
@@ -162,6 +169,12 @@ export class GoldenLayoutComponent implements OnInit, ComponentInitCallbackFacto
     if (implementsGlOnHide(component)) {
       container.on('hide', () => {
         component.glOnHide();
+      });
+    }
+
+    if (implementsGlOnTab(component)) {
+      container.on('tab', () => {
+        component.glOnTab();
       });
     }
   }
