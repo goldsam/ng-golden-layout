@@ -3,12 +3,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 import { TestPanelComponent } from './test-panel.component';
+import { TodoService } from './todo.service';
+
 import { 
   GoldenLayoutModule, 
   GoldenLayoutConfiguration, 
   DEFAULT_LOCAL_STORAGE_STATE_STORE_PROVIDER 
 } from '@goldsam/ng-golden-layout';
 import * as GoldenLayout from 'golden-layout';
+
+
+
 
 const goldenLayoutConfig: GoldenLayoutConfiguration = {
   components: [
@@ -57,7 +62,8 @@ const goldenLayoutConfig: GoldenLayoutConfiguration = {
     GoldenLayoutModule.forRoot(goldenLayoutConfig)
   ],
   providers: [
-    DEFAULT_LOCAL_STORAGE_STATE_STORE_PROVIDER
+    DEFAULT_LOCAL_STORAGE_STATE_STORE_PROVIDER,
+    TodoService
   ],
   bootstrap: [AppComponent]
 })

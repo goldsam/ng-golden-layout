@@ -1,6 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { GoldenLayoutComponentState, GlOnResize, GlOnHide, GlOnShow, GoldenLayoutContainer } from '@goldsam/ng-golden-layout';
+import { TodoService, Todo } from './todo.service';
 import * as GoldenLayout from 'golden-layout';
+
+import { Observable } from 'rxjs/Observable';
+import '@goldsam/ng-golden-layout/rxjs/add/operator/fromParentContext';
+
 
 @Component({
   template: `
@@ -13,14 +18,21 @@ import * as GoldenLayout from 'golden-layout';
 })
 export class TestPanelComponent implements GlOnResize, GlOnHide, GlOnShow {
 
+  private todos: Observable<Todo[]>;
+
   constructor(@Inject(GoldenLayoutComponentState) private state: any,
-              @Inject(GoldenLayoutContainer) private container: GoldenLayout.Container) {}
+              @Inject(GoldenLayoutContainer) private container: GoldenLayout.Container,
+              todoService: TodoService) 
+  {
+    this.todos = todoService.todos
+      .fromParentContext();
+  }
 
   public onInput(e: Event): void {
     
-    this.container.extendState({
-      value: (<HTMLInputElement>e.target).value
-    });
+    // this.container.extendState({
+    //   value: (<HTMLInputElement>e.target).value
+    // });
 
     console.log('state saved.');
   }

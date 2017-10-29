@@ -14,7 +14,7 @@
     "baseUrl": ".",
     "paths": {
       "@goldsam/ng-golden-layout": [
-        "../../dist/index"
+        "../../dist"
       ]
     }
   }
