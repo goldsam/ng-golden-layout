@@ -5,3 +5,6 @@ $ cat .gitignore
 
 *.log
 *.tgz
+
+**/node_modules
+**/dist

@@ -4,9 +4,7 @@ import { TodoService, Todo } from './todo.service';
 import * as GoldenLayout from 'golden-layout';
 
 import { Observable } from 'rxjs/Observable';
-import { fromParentContext } from '@goldsam/ng-golden-layout/rxjs/operator/fromParentContext';
-
-FromParentContextObservable
+import '@goldsam/ng-golden-layout/dist/src/rxjs/add/operator/fromParentContext'
 
 @Component({
   template: `

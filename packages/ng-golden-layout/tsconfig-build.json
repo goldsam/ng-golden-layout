@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declaration": true,
+    "experimentalDecorators": true,
+    "module": "es2015",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "rootDir": "./src",
+    "sourceMap": true,
+    "inlineSources": true,
+    "target": "es5",
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "types": [
+      "jasmine",
+      "node",
+      "jquery"
+    ]
+  },
+  "files": [
+    "src/index.ts",
+    "node_modules/zone.js/dist/zone.js.d.ts"
+  ],
+  "angularCompilerOptions": {
+    "skipTemplateCodegen": true,
+    "strictMetadataEmit": true,
+    "annotateForClosureCompiler": true
+  }
+}
